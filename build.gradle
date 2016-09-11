@@ -1,0 +1,56 @@
+ext.projectDepends = fileTree(dir: 'libs', include: ['*.jar']) // 导入libs目录下所有包
+
+subprojects {
+    apply plugin: 'java'
+
+    repositories {
+        jcenter()
+        
+        maven {
+            name = 'Bukkit'
+            url  = 'http://repo.bukkit.org/content/repositories/public/'
+        }
+        
+        maven {
+            name = 'Guava'
+            url  = 'https://mvnrepository.com/artifact/com.google.guava/guava'
+        }
+        
+        maven {
+            name = 'Spigot'
+            url  = 'https://hub.spigotmc.org/nexus/content/groups/public/'
+        }
+    }
+    
+    // 源码版本
+    sourceCompatibility = 1.8
+    // 编译目标版本
+    targetCompatibility = 1.8
+    
+    
+    dependencies {
+        // libs文件夹的依赖
+        compile projectDepends
+
+        // https://mvnrepository.com/artifact/com.j256.ormlite/ormlite-core
+        compile 'com.j256.ormlite:ormlite-core:4.48'
+        // https://mvnrepository.com/artifact/com.j256.ormlite/ormlite-jdbc
+        compile 'com.j256.ormlite:ormlite-jdbc:4.48'
+        // Spigot API
+        compile ('org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT') {transitive = false}
+
+        // 下面是
+
+        // Guava
+        compile ('com.google.guava:guava:12.0') {transitive = false}
+        // JSON Simple
+        compile ('org.apache.clerezza.ext:org.json.simple:0.4') {transitive = false}
+        
+        // 暂无测试内容
+        //testCompile 'junit:junit:4.12'
+    }
+    
+    tasks.withType(JavaCompile) {// 使用utf-8编码读取源码
+        options.encoding = "UTF-8"  
+    }
+}

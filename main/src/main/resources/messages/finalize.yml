@@ -1,0 +1,10 @@
+plugin:
+  finalize: 插件关闭中...
+  success: 插件已关闭！
+database:
+  finalize: 正在关闭数据库...
+  closeConnection: 关闭数据库连接时出现异常！
+unhandleException: |
+  插件关闭过程中出现严重错误！
+  错误类型：{0}
+  错误信息：{1}

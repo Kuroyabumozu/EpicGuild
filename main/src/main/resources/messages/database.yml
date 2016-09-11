@@ -1,0 +1,61 @@
+init:
+  missingConfig: 未找到数据库配置！请确认插件配置中是否含有数据库配置！
+  connect: 正在连接数据库...
+  initDao: 正在初始化数据访问对象...
+  fail:
+    connect: 连接数据库失败！
+    initDao: 初始化数据访问对象失败！
+type:
+  unsupport: 暂不支持{0}数据库！
+buildUrl:
+  missingConfig:
+    driver: |
+      当前使用的数据库类型为：{0}！
+      但是数据库配置中缺少{0}数据库的配置！
+    SQLite: |
+      SQLite数据库配置不完整！当前配置如下：
+      数据库路径(path): {0}
+    MySQL: |
+      MySQL数据库配置不完整！当前配置如下：
+      主机(host): {0}
+      端口(port): {1}
+      数据库名(database-name): {2}
+      用户名(user): {3}
+      密码(password): {4}
+  build:
+    SQLite: |
+      当前使用的数据库类型为：SQLite，将使用以下信息构建连接URL：
+      数据库路径(path): {0}
+    MySQL: |
+      当前使用的数据库类型为：MySQL，将使用以下信息构建连接URL：
+      主机(host): {0}
+      端口(port): {1}
+      数据库名(database-name): {2}
+      用户名(user): {3}
+      密码(password): {4}
+  unsupport: 尚不支持为{0}数据库构建连接URL！
+connect:
+  tryConnect: |
+    正在尝试连接数据库！
+    数据库类型：{0}
+    连接URL：{1}
+version:
+  unsupport: |
+    不支持此版本的数据库结构！
+    当前版本：{0}
+    支持的版本：{1}
+    数据库版本和插件版本对应表：
+    数据库版本\t插件版本
+         20        2.X
+  write: 当前数据库中没有数据库结构版本信息，将自动写入版本信息！
+  state: 当前数据库结构版本为：{0}
+initDao:
+  init: 初始化数据访问对象：{0}
+sqlExcetion:
+  default: 访问数据库时出现异常！异常栈如下：
+  connect: |
+    连接数据库时出现异常！
+    数据库类型：{0}
+    连接URL：{1}
+    异常栈如下：
+  initDao: 初始化数据访问对象时出现异常！异常栈如下：

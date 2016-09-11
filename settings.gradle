@@ -1,0 +1,5 @@
+// 子项目
+include 'main' // 主体
+include 'module-rank' // rank模块
+
+rootProject.name = 'EpicGuild'
