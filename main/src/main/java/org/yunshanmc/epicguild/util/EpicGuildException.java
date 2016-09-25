@@ -10,11 +10,24 @@ import org.bukkit.ChatColor;
  */
 public class EpicGuildException extends Exception {
     
+    private String messageKey;
+    private Object[] args;
+    
     public EpicGuildException(String messageKey, Object... args) {
         this(null, messageKey, args);
     }
     
     public EpicGuildException(Throwable cause, String messageKey, Object... args) {
         super(ChatColor.stripColor(Util_Message.getMessage(messageKey, args)), cause);
+        this.messageKey = messageKey;
+        this.args = args;
+    }
+    
+    public String getMessageKey() {
+        return this.messageKey;
+    }
+    
+    public Object[] getArgs() {
+        return this.args;
     }
 }

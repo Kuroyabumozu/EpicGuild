@@ -22,7 +22,7 @@ import java.util.jar.JarFile;
  */
 public class JavaModuleLoader implements ModuleLoader {
     
-    private final File folder;
+    private final File          folder;
     private final ModuleManager moduleManager;
     
     public JavaModuleLoader(File folder, ModuleManager moduleManager) {
@@ -38,6 +38,13 @@ public class JavaModuleLoader implements ModuleLoader {
         } catch (InvalidDescriptionException e) {
             throw new InvalidModuleException(e, "invalidDescription");
         }
+        for (String depend : des.getDepend()) {
+            if (!this.moduleManager.isModuleLoaded(depend)) {
+                throw new InvalidModuleException("unknownDependency", depend);
+            }
+        }
+        
+        //TODO JavaPluginLoader line 131
         return null;
     }
     
@@ -54,7 +61,8 @@ public class JavaModuleLoader implements ModuleLoader {
                 throw new InvalidDescriptionException("missingDescription");
             }
             InputStream stream = jar.getInputStream(entry);
-            YamlConfiguration yml = YamlConfiguration.loadConfiguration(new InputStreamReader(stream, StandardCharsets.UTF_8));
+            YamlConfiguration yml = YamlConfiguration.loadConfiguration(
+                new InputStreamReader(stream, StandardCharsets.UTF_8));
             return JavaModuleDescription.loadFromYaml(yml);
         } catch (IOException e) {
             throw new InvalidDescriptionException(e, "invalidFile");

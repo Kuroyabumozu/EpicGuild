@@ -18,7 +18,7 @@ public interface ModuleLoader {
      *
      * @return 加载好的模块，若加载失败则返回null
      */
-    Module loadModule(File moduleFile) throws InvalidModuleException, InvalidDescriptionException;
+    Module loadModule(File moduleFile) throws InvalidModuleException;
     
     /**
      * 卸载指定模块
