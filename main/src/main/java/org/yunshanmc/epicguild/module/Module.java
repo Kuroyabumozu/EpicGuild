@@ -18,6 +18,13 @@ public interface Module {
     String getName();
     
     /**
+     * 获取模块描述
+     *
+     * @return 模块描述
+     */
+    ModuleDescription getDescription();
+    
+    /**
      * 获取该模块的命令管理器
      * 
      * @return 该模块的命令管理器

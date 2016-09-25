@@ -10,21 +10,15 @@ import org.yunshanmc.ycl.command.CommandManager;
  */
 public abstract class BaseModule implements Module {
     
-    protected final String         name;
-    protected final ModuleCommandManager commandManager;
-    
-    public BaseModule(String name) {
-        this.name = name;
-        this.commandManager = new ModuleCommandManager();
-    }
+    protected final ModuleCommandManager commandManager = new ModuleCommandManager();
     
     @Override
     public final String getName() {
-        return this.name;
+        return this.getDescription().getName();
     }
     
     /**
-     * @see org.yunshanmc.epicguild.module.Module#getCommandManager()
+     * @see Module#getCommandManager()
      */
     @Override
     public final CommandManager getCommandManager() {
@@ -37,5 +31,18 @@ public abstract class BaseModule implements Module {
     
     @Override
     public void onUnload() {
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (!(obj instanceof Module)) return false;
+        return this.getName().equals(((Module) obj).getName());
+    }
+    
+    @Override
+    public int hashCode() {
+        return this.getName().hashCode();
     }
 }
