@@ -1,8 +1,5 @@
 package org.yunshanmc.epicguild;
 
-import java.io.File;
-import java.io.IOException;
-
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -30,15 +27,19 @@ import org.yunshanmc.ycl.message.Messager;
 import org.yunshanmc.ycl.resource.ResourceManager;
 import org.yunshanmc.ycl.resource.StandardResourceManager;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Paths;
+
 /**
  * EpicGuild插件主类
  */
 public class EpicGuildPlugin extends JavaPlugin {
     
     private DatabaseManager    databaseManager;
-    private GuildManager        guildManager;
+    private GuildManager       guildManager;
     private GuildMemberManager guildMemberManager;
-    private EGCommandManager     commandManager;
+    private EGCommandManager   commandManager;
     private ConfigManager      configManager;
     private LocaleManager      localeManager;
     private MessageManager     messageManager;
@@ -46,51 +47,6 @@ public class EpicGuildPlugin extends JavaPlugin {
     private ModuleManager      moduleManager;
     
     private Messager messager;
-    
-    @Override
-    public void onLoad() {
-        try {
-            this.resourceManager = new StandardResourceManager(this);
-            this.localeManager = new LocaleManager();
-            this.messageManager = new GroupMessageManager(this.resourceManager, this.localeManager);
-            this.messager = this.messageManager.createMessager();
-            Util_Message.setMessager(this.messager);
-            ExceptionUtils.setExceptionHandler(new ExceptionHandler() {
-                
-                @Override
-                public void handle(Throwable t) {
-                    Util_Message.errorConsole("message.inter.unhandleException.before", t.getClass().getName(),
-                            t.getMessage());
-                    t.printStackTrace();
-                    Util_Message.errorConsole("message.inter.unhandleException.after", t.getClass().getName(),
-                            t.getMessage());
-                }
-            });
-        } catch (Throwable e) {
-            e.printStackTrace();
-        }
-    }
-    
-    @Override
-    public void onEnable() {
-        try {
-            this.onEnable0();
-        } catch (Throwable e) {
-            Util_Message.errorConsole("init.unhandleException", e.getClass().getName(), e.getMessage());
-            e.printStackTrace();
-            this.setEnabled(false);
-        }
-    }
-    
-    @Override
-    public void onDisable() {
-        try {
-            this.onDisable0();
-        } catch (Throwable e) {
-            Util_Message.errorConsole("finalize.unhandleException", e.getClass().getName(), e.getMessage());
-            e.printStackTrace();
-        }
-    }
     
     //启动插件
     private void onEnable0() {
@@ -120,7 +76,7 @@ public class EpicGuildPlugin extends JavaPlugin {
         
         this.guildManager = new EGGuildManager();
         
-        this.moduleManager = new EGModuleManager();
+        this.moduleManager = new EGModuleManager(Paths.get(new File(super.getDataFolder(), "modules/install").toURI()));
         
         this.registerCommands();
         this.registerListeners();
@@ -152,11 +108,6 @@ public class EpicGuildPlugin extends JavaPlugin {
     }
     
     @Override
-    public void saveDefaultConfig() {
-        this.configManager.saveDefaultConfig("config.yml", "config.yml", false);
-    }
-    
-    @Override
     public FileConfiguration getConfig() {
         YamlConfiguration yml = new YamlConfiguration();
         try {
@@ -167,9 +118,59 @@ public class EpicGuildPlugin extends JavaPlugin {
         return yml;
     }
     
+    @Override
+    public void saveDefaultConfig() {
+        this.configManager.saveDefaultConfig("config.yml", "config.yml", false);
+    }
+    
+    @Override
+    public void onLoad() {
+        try {
+            this.resourceManager = new StandardResourceManager(this);
+            this.localeManager = new LocaleManager();
+            this.messageManager = new GroupMessageManager(this.resourceManager, this.localeManager);
+            this.messager = this.messageManager.createMessager();
+            Util_Message.setMessager(this.messager);
+            ExceptionUtils.setExceptionHandler(new ExceptionHandler() {
+                
+                @Override
+                public void handle(Throwable t) {
+                    Util_Message.errorConsole("message.inter.unhandleException.before", t.getClass().getName(),
+                                              t.getMessage());
+                    t.printStackTrace();
+                    Util_Message.errorConsole("message.inter.unhandleException.after", t.getClass().getName(),
+                                              t.getMessage());
+                }
+            });
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+    }
+    
+    @Override
+    public void onDisable() {
+        try {
+            this.onDisable0();
+        } catch (Throwable e) {
+            Util_Message.errorConsole("finalize.unhandleException", e.getClass().getName(), e.getMessage());
+            e.printStackTrace();
+        }
+    }
+    
+    @Override
+    public void onEnable() {
+        try {
+            this.onEnable0();
+        } catch (Throwable e) {
+            Util_Message.errorConsole("init.unhandleException", e.getClass().getName(), e.getMessage());
+            e.printStackTrace();
+            this.setEnabled(false);
+        }
+    }
+    
     /**
      * 获取本地化管理器
-     * 
+     *
      * @return 本地化管理器
      */
     public LocaleManager getLocaleManager() {
@@ -178,7 +179,7 @@ public class EpicGuildPlugin extends JavaPlugin {
     
     /**
      * 获取资源管理器
-     * 
+     *
      * @return 资源管理器
      */
     public ResourceManager getResourceManager() {
@@ -187,7 +188,7 @@ public class EpicGuildPlugin extends JavaPlugin {
     
     /**
      * 获取数据库管理器
-     * 
+     *
      * @return 数据库管理器
      */
     public DatabaseManager getDatabaseManager() {
@@ -196,7 +197,7 @@ public class EpicGuildPlugin extends JavaPlugin {
     
     /**
      * 获取配置管理器
-     * 
+     *
      * @return 配置管理器
      */
     public ConfigManager getConfigManager() {
@@ -205,7 +206,7 @@ public class EpicGuildPlugin extends JavaPlugin {
     
     /**
      * 获取命令管理器
-     * 
+     *
      * @return 命令管理器
      */
     public EGCommandManager getCommandManager() {
@@ -214,7 +215,7 @@ public class EpicGuildPlugin extends JavaPlugin {
     
     /**
      * 获取公会管理器
-     * 
+     *
      * @return 公会管理器
      */
     public GuildManager getGuildManager() {
@@ -223,7 +224,7 @@ public class EpicGuildPlugin extends JavaPlugin {
     
     /**
      * 获取公会成员管理器
-     * 
+     *
      * @return 公会成员管理器
      */
     public GuildMemberManager getGuildMemberManager() {
@@ -232,7 +233,7 @@ public class EpicGuildPlugin extends JavaPlugin {
     
     /**
      * 获取模块管理器
-     * 
+     *
      * @return 模块管理器
      */
     public ModuleManager getModuleManager() {
@@ -241,7 +242,7 @@ public class EpicGuildPlugin extends JavaPlugin {
     
     /**
      * 获取信息管理器
-     * 
+     *
      * @return 信息管理器
      */
     public MessageManager getMessageManager() {

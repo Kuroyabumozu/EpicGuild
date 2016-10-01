@@ -1,5 +1,7 @@
 package org.yunshanmc.epicguild.util;
 
+import org.yunshanmc.ycl.exception.ExceptionUtils;
+
 import java.sql.SQLException;
 
 /**
@@ -8,6 +10,13 @@ import java.sql.SQLException;
 public final class Util_Exception {
     
     private Util_Exception() {//禁止实例化
+    }
+    
+    public static void handle(EpicGuildException exception) {
+        if (exception.getCause() != null) {
+            ExceptionUtils.handle(exception.getCause());// TODO 处理cause
+        }
+        Util_Message.errorConsole(exception.getMessageKey(), exception.getArgs());
     }
     
     /**

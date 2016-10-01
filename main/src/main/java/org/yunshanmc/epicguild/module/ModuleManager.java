@@ -1,6 +1,5 @@
 package org.yunshanmc.epicguild.module;
 
-import java.io.File;
 import java.util.Map;
 
 /**
@@ -14,14 +13,12 @@ public interface ModuleManager {
     /**
      * 加载指定的模块
      *
-     * @param type
-     *     模块类型
-     * @param moduleFile
-     *     模块文件
+     * @param moduleName
+     *     模块名
      *
-     * @return 加载好的模块
+     * @return 加载好的模块，加载失败则返回null
      */
-    Module loadModule(String type, File moduleFile);
+    Module loadModule(String moduleName);
     
     /**
      * 卸载指定的模块

@@ -11,11 +11,11 @@ import org.yunshanmc.epicguild.util.EpicGuildException;
  */
 public class InvalidModuleException extends EpicGuildException {
     
-    public InvalidModuleException(String messageKey, Object... args) {
-        this(null, "module.load.invalidModule." + messageKey, args);
+    public InvalidModuleException(String reason, Object... args) {
+        this(null, reason, args);
     }
     
-    public InvalidModuleException(Throwable cause, String messageKey, Object... args) {
-        super(cause, "module.load.invalidModule." + messageKey, args);
+    public InvalidModuleException(Throwable cause, String reason, Object... args) {
+        super(cause, "module.load.invalidModule." + reason, args);
     }
 }

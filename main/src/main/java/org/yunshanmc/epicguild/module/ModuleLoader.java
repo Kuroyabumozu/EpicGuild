@@ -13,18 +13,20 @@ public interface ModuleLoader {
     /**
      * 加载指定模块
      *
+     * @param moduleName
+     *     要加载的模块的名字
      * @param moduleFile
      *     要加载的模块文件
      *
      * @return 加载好的模块，若加载失败则返回null
      */
-    Module loadModule(File moduleFile) throws InvalidModuleException;
+    Module loadModule(String moduleName, File moduleFile) throws InvalidModuleException;
     
     /**
      * 卸载指定模块
      *
      * @param name
-     *     要卸载的模块名
+     *     要卸载的模块的名字
      */
     void unloadModule(String name);
 }

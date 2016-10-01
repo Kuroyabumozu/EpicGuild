@@ -39,7 +39,7 @@ subprojects {
         // Spigot API
         compile ('org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT') {transitive = false}
 
-        // 下面是
+        // 下面是API
 
         // Guava
         compile ('com.google.guava:guava:12.0') {transitive = false}
@@ -49,8 +49,8 @@ subprojects {
         // 暂无测试内容
         //testCompile 'junit:junit:4.12'
     }
-    
+
     tasks.withType(JavaCompile) {// 使用utf-8编码读取源码
-        options.encoding = "UTF-8"  
+        options.encoding = "UTF-8"
     }
 }

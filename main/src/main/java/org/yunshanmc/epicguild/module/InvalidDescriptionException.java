@@ -2,6 +2,8 @@ package org.yunshanmc.epicguild.module;
 
 import org.yunshanmc.epicguild.util.EpicGuildException;
 
+import java.util.ArrayList;
+
 /**
  * 无效的模块描述异常
  * <p>
@@ -10,11 +12,16 @@ import org.yunshanmc.epicguild.util.EpicGuildException;
  */
 public class InvalidDescriptionException extends EpicGuildException {
     
-    public InvalidDescriptionException(String messageKey, Object... args) {
-        this(null, "module.load.invalidDescription." + messageKey, args);
+    public InvalidDescriptionException(String reason, String moduleName, Object... otherArgs) {
+        this(null, reason, moduleName, otherArgs);
     }
     
-    public InvalidDescriptionException(Throwable cause, String messageKey, Object... args) {
-        super("module.load.invalidDescription." + messageKey, args);
+    public InvalidDescriptionException(Throwable cause, String reason, String moduleName, Object... otherArgs) {
+        super(cause, "module.load.invalidDescription." + reason, new ArrayList<Object>(){{
+            this.add(moduleName);
+            for (Object obj : otherArgs) {
+                this.add(obj);
+            }
+        }}.toArray());
     }
 }

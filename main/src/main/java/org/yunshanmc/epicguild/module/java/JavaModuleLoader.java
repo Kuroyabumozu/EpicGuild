@@ -1,18 +1,17 @@
 package org.yunshanmc.epicguild.module.java;
 
-import org.bukkit.configuration.file.YamlConfiguration;
+import com.google.common.collect.Maps;
 import org.yunshanmc.epicguild.module.InvalidDescriptionException;
 import org.yunshanmc.epicguild.module.InvalidModuleException;
 import org.yunshanmc.epicguild.module.ModuleLoader;
-import org.yunshanmc.epicguild.module.ModuleManager;
+import org.yunshanmc.epicguild.util.Util_Bukkit;
+import org.yunshanmc.ycl.config.ReadOnlyConfiguration;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.lang.ref.WeakReference;
+import java.util.Map;
 
 /**
  * 模块加载器
@@ -22,50 +21,55 @@ import java.util.jar.JarFile;
  */
 public class JavaModuleLoader implements ModuleLoader {
     
-    private final File          folder;
-    private final ModuleManager moduleManager;
+    private static JavaModuleLoader Instance;
     
-    public JavaModuleLoader(File folder, ModuleManager moduleManager) {
-        this.folder = folder;
-        this.moduleManager = moduleManager;
+    private Map<String, ModuleClassLoader>       loaders = Maps.newHashMap();
+    private Map<String, WeakReference<Class<?>>> classes = Maps.newConcurrentMap();
+    
+    private JavaModuleLoader() {// 单例模式
+        Util_Bukkit.runTaskTimerAsynchronously5Min(() -> {
+            synchronized (this.classes) {
+                this.classes = Maps.filterValues(this.classes, ref -> ref.get() != null);
+            }
+        });
+    }
+    
+    public static JavaModuleLoader getInstance() {
+        if (Instance == null) {
+            Instance = new JavaModuleLoader();
+        }
+        return Instance;
     }
     
     @Override
-    public JavaModule loadModule(File moduleFile) throws InvalidModuleException {
+    public JavaModule loadModule(String moduleName, File moduleFile) throws InvalidModuleException {
         JavaModuleDescription des;
         try {
-            des = getModuleDescription(moduleFile);
+            des = JavaModuleDescription.loadFromConfiguration(
+                ReadOnlyConfiguration.loadConfiguration(new FileInputStream(moduleFile)));
         } catch (InvalidDescriptionException e) {
             throw new InvalidModuleException(e, "invalidDescription");
-        }
-        for (String depend : des.getDepend()) {
-            if (!this.moduleManager.isModuleLoaded(depend)) {
-                throw new InvalidModuleException("unknownDependency", depend);
-            }
+        } catch (FileNotFoundException e) {
+            throw new InvalidModuleException(e, "fileNotFound", moduleName, moduleFile.getAbsolutePath());
         }
         
-        //TODO JavaPluginLoader line 131
-        return null;
+        ModuleClassLoader loader;
+        try {
+            loader = new ModuleClassLoader(des, moduleFile, this.getClass().getClassLoader());
+        } catch (Throwable e) {
+            if (e instanceof InvalidModuleException) {
+                throw (InvalidModuleException) e;
+            } else {
+                throw new InvalidModuleException(e, "unknownException", moduleName);
+            }
+        }
+        this.loaders.put(des.getName(), loader);
+        
+        return loader.getModule();
     }
     
     @Override
     public void unloadModule(String name) {
-        
-    }
-    
-    private static JavaModuleDescription getModuleDescription(File moduleFile) throws InvalidDescriptionException {
-        try {
-            JarFile jar = new JarFile(moduleFile);
-            JarEntry entry = jar.getJarEntry("module.yml");
-            if (entry == null) {
-                throw new InvalidDescriptionException("missingDescription");
-            }
-            InputStream stream = jar.getInputStream(entry);
-            YamlConfiguration yml = YamlConfiguration.loadConfiguration(
-                new InputStreamReader(stream, StandardCharsets.UTF_8));
-            return JavaModuleDescription.loadFromYaml(yml);
-        } catch (IOException e) {
-            throw new InvalidDescriptionException(e, "invalidFile");
-        }
+        this.loaders.remove(name);
     }
 }
