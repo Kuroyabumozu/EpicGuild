@@ -15,7 +15,7 @@ import java.util.Map;
  * 作者： Yun-Shan <br>
  * 创建日期： 2016/9/25.
  */
-public final class ModuleClassLoader extends URLClassLoader {
+final class ModuleClassLoader extends URLClassLoader {
     
     private final JavaModule module;
     
