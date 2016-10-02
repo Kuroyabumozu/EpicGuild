@@ -8,11 +8,6 @@ subprojects {
             name = 'YunShan Plugin'
             url  = 'https://dl.bintray.com/yun-shan/BukkitPlugin/'
         }
-
-        maven {
-            name = 'Bukkit'
-            url  = 'http://repo.bukkit.org/content/repositories/public/'
-        }
         
         maven {
             name = 'Guava'
