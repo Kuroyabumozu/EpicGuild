@@ -12,9 +12,16 @@ public abstract class BaseModule implements Module {
     
     protected final ModuleCommandManager commandManager = new ModuleCommandManager();
     
+    private ModuleDescription description;
+    
     @Override
     public final String getName() {
         return this.getDescription().getName();
+    }
+    
+    @Override
+    public final ModuleDescription getDescription() {
+        return this.description;
     }
     
     /**

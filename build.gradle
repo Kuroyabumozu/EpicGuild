@@ -1,11 +1,14 @@
-ext.projectDepends = fileTree(dir: 'libs', include: ['*.jar']) // 导入libs目录下所有包
-
 subprojects {
     apply plugin: 'java'
 
     repositories {
         jcenter()
-        
+
+        maven {
+            name = 'YunShan Plugin'
+            url  = 'https://dl.bintray.com/yun-shan/BukkitPlugin/'
+        }
+
         maven {
             name = 'Bukkit'
             url  = 'http://repo.bukkit.org/content/repositories/public/'
@@ -29,8 +32,8 @@ subprojects {
     
     
     dependencies {
-        // libs文件夹的依赖
-        compile projectDepends
+        // YCL
+        compile 'org.yunshanmc.plugin:Yun_Shan-Common-Library:latest.integration'
 
         // https://mvnrepository.com/artifact/com.j256.ormlite/ormlite-core
         compile 'com.j256.ormlite:ormlite-core:4.48'
