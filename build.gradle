@@ -33,7 +33,7 @@ subprojects {
     
     dependencies {
         // YCL
-        compile 'org.yunshanmc.plugin:Yun_Shan-Common-Library:latest.integration'
+        compile ('org.yunshanmc.plugin:Yun_Shan-Common-Library:latest.integration') {transitive = false}
 
         // https://mvnrepository.com/artifact/com.j256.ormlite/ormlite-core
         compile 'com.j256.ormlite:ormlite-core:4.48'
