@@ -1,12 +1,12 @@
 package org.yunshanmc.epicguild.command;
 
-import java.util.Arrays;
-
 import org.bukkit.command.CommandSender;
 import org.yunshanmc.epicguild.module.Module;
 import org.yunshanmc.epicguild.module.ModuleManager;
 import org.yunshanmc.ycl.command.simple.SimpleCommandManager;
 import org.yunshanmc.ycl.message.Messager;
+
+import java.util.Arrays;
 
 /**
  * EpicGuild专用的命令管理器
@@ -33,8 +33,7 @@ public class EGCommandManager extends SimpleCommandManager {
         if (args.length > 0) {
             Module mod = this.moduleManager.getLoadedModules().get(args[0]);
             if (mod != null) {
-                mod.getCommandManager().onCommand(sender, command, label,
-                        Arrays.copyOfRange(args, 1, args.length));
+                mod.getCommandManager().onCommand(sender, command, label, Arrays.copyOfRange(args, 1, args.length));
                 return true;
             } else {
                 cmd = args[0];
@@ -52,9 +51,15 @@ public class EGCommandManager extends SimpleCommandManager {
     
     /**
      * 检查权限
-     * //TODO 填补注释
+     *
+     * @param sender
+     *     要检查权限的CommandSender
+     * @param perm
+     *     要检查的权限
+     *
+     * @return true有权限，false没权限
      */
-    protected boolean checkPermission(CommandSender sender, String perm) {
+    private boolean checkPermission(CommandSender sender, String perm) {
         return sender.hasPermission(perm);
     }
 }
