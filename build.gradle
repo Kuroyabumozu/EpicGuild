@@ -3,11 +3,6 @@ subprojects {
 
     repositories {
         jcenter()
-
-        maven {
-            name = 'YunShan Plugin'
-            url  = 'https://dl.bintray.com/yun-shan/BukkitPlugin/'
-        }
         
         maven {
             name = 'Guava'
