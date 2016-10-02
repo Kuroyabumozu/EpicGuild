@@ -12,7 +12,7 @@ public abstract class BaseModule implements Module {
     
     protected final ModuleCommandManager commandManager = new ModuleCommandManager();
     
-    private ModuleDescription description;
+    private ModuleDescription description = null;
     
     @Override
     public final String getName() {
