@@ -1,6 +1,7 @@
 ext.projectDepends = fileTree(dir: 'libs', include: ['*.jar']) // 导入libs目录下所有包
 
 subprojects {
+    apply plugin: 'java'
 
     repositories {
         jcenter()

@@ -1,5 +1,4 @@
 plugins {
-    id 'java'
     id 'me.tatarka.retrolambda' version '3.3.0'
 }
 
