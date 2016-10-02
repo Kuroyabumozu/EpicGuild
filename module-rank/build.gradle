@@ -1,3 +1,14 @@
+plugins {
+    id 'java'
+    id 'me.tatarka.retrolambda' version '3.3.0'
+}
+
+retrolambda {
+    jdk System.getenv("JAVA8_HOME")
+    oldJdk System.getenv("JAVA6_HOME")
+    javaVersion JavaVersion.VERSION_1_6
+}
+
 dependencies {
     compile project(':main')
 }

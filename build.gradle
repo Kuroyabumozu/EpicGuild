@@ -1,16 +1,6 @@
 ext.projectDepends = fileTree(dir: 'libs', include: ['*.jar']) // 导入libs目录下所有包
 
 subprojects {
-    plugins {
-        id 'java'
-        id 'me.tatarka.retrolambda' version '3.3.0'
-    }
-
-    retrolambda {
-        jdk System.getenv("JAVA8_HOME")
-        oldJdk System.getenv("JAVA6_HOME")
-        javaVersion JavaVersion.VERSION_1_6
-    }
 
     repositories {
         jcenter()
