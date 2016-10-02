@@ -1,7 +1,6 @@
 package org.yunshanmc.epicguild.command;
 
-import java.util.List;
-
+import com.google.common.collect.Lists;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.yunshanmc.epicguild.EpicGuildAPI;
@@ -10,7 +9,7 @@ import org.yunshanmc.epicguild.guildmember.GuildMember;
 import org.yunshanmc.ycl.command.simple.ArgConverterManager;
 import org.yunshanmc.ycl.command.simple.SimpleCommand;
 
-import com.google.common.collect.Lists;
+import java.util.List;
 
 /**
  * EpicGuild命令 <br>
@@ -29,7 +28,7 @@ public abstract class EGCommand extends SimpleCommand {
     
     // 添加拦截动作
     @Override
-    protected boolean executeCommand(CommandSender sender, String... args) {
+    protected void executeCommand(CommandSender sender, String... args) {
         boolean canExecute = true;
         for (CommandInterceptor interceptor : this.interceptors) {
             InterceptorResult res = interceptor.handle(sender, args, canExecute);
@@ -43,14 +42,14 @@ public abstract class EGCommand extends SimpleCommand {
                     break;
                 }
                 case STOP: {
-                    return true;
+                    return;
                 }
                 case COUTINUE:
                 default:
                     break;
             }
         }
-        return super.executeCommand(sender, args);
+        super.executeCommand(sender, args);
     }
     
     /**
