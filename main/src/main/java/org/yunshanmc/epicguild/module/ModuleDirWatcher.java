@@ -22,7 +22,7 @@ class ModuleDirWatcher extends Thread {
     
     private volatile boolean close;
     
-    public ModuleDirWatcher(Path dir, EGModuleManager moduleManager) throws IOException {
+    ModuleDirWatcher(Path dir, EGModuleManager moduleManager) throws IOException {
         this.dir = dir;
         this.moduleManager = moduleManager;
         
@@ -49,6 +49,7 @@ class ModuleDirWatcher extends Thread {
                 if (kind != ENTRY_CREATE && kind != ENTRY_MODIFY) {// 仅限创建和修改
                     continue;
                 }
+                @SuppressWarnings("unchecked")
                 WatchEvent<Path> evt = (WatchEvent<Path>) event;
                 Path name = evt.context();
                 Path child = this.dir.resolve(name);
