@@ -21,9 +21,9 @@ final class ModuleClassLoader extends URLClassLoader {
     
     private final JavaModuleDescription description;
     
-    private final Map<String, Class<?>> classes = Maps.newConcurrentMap();
+    private final Map<String, Class<?>> classes = Maps.newConcurrentMap();//TODO 缓存class
     
-    public ModuleClassLoader(JavaModuleDescription description, File moduleFile, ClassLoader parent)
+    ModuleClassLoader(JavaModuleDescription description, File moduleFile, ClassLoader parent)
         throws InvalidModuleException, MalformedURLException {
         super(new URL[] { moduleFile.toURI().toURL() }, parent);
         this.description = description;
