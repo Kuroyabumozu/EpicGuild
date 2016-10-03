@@ -1,16 +1,17 @@
 ﻿name: EpicGuild
 main: org.yunshanmc.epicguild.EpicGuildPlugin
 version: 1.3.1.2
+depend: [YCL]
 softdepend: [Vault,Multiverse-Core,RPG_Items,MoreItems,DeluxeChat]
 commands:
   epicguild:
     aliases: [eg, guild, g]
     description: 插件命令
-    usage: 插件加载错误，请联系OP查看后台报错
+    usage: '§e[§aEpicGuild§e]§c插件加载失败！请查看加载时的后台报错！'
   epicguildadmin:
     aliases: [egadmin, guildadmin, gadmin]
     description: 插件管理命令
-    usage: 插件加载错误，请联系OP查看后台报错
+    usage: '§e[§aEpicGuild§e]§c插件加载失败！请查看加载时的后台报错！'
 permissions:
 # -------------------------------------------- #
 # 管理权限
