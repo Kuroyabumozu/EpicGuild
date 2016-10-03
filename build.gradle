@@ -19,8 +19,7 @@ subprojects {
     sourceCompatibility = 1.8
     // 编译目标版本
     targetCompatibility = 1.8
-    
-    
+
     dependencies {
         // YCL
         compile ('org.yunshanmc.plugin:Yun_Shan-Common-Library:latest.integration') {transitive = false}
@@ -29,6 +28,12 @@ subprojects {
         compile 'com.j256.ormlite:ormlite-core:4.48'
         // https://mvnrepository.com/artifact/com.j256.ormlite/ormlite-jdbc
         compile 'com.j256.ormlite:ormlite-jdbc:4.48'
+
+        // https://mvnrepository.com/artifact/com.j256.ormlite/ormlite-core
+        runtime 'com.j256.ormlite:ormlite-core:4.48'
+        // https://mvnrepository.com/artifact/com.j256.ormlite/ormlite-jdbc
+        runtime 'com.j256.ormlite:ormlite-jdbc:4.48'
+
         // Spigot API
         compile ('org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT') {transitive = false}
 

@@ -1,3 +1,9 @@
+import java.nio.file.Files
+import java.nio.file.Paths
+import java.nio.file.StandardCopyOption
+import java.util.zip.ZipEntry
+import java.util.zip.ZipFile
+
 plugins {
     id 'me.tatarka.retrolambda' version '3.3.0'
 }
@@ -6,4 +12,29 @@ retrolambda {
     jdk System.getenv("JAVA8_HOME")
     oldJdk System.getenv("JAVA6_HOME")
     javaVersion JavaVersion.VERSION_1_6
+}
+
+task fetchClasses << {
+    File dir = file('build/classes/dependencies')
+    dir.mkdirs()
+    configurations.runtime.forEach {file ->
+        try {
+            ZipFile zip = new ZipFile(file);
+            for (ZipEntry entry : zip.entries()) {
+                if (entry.getName().endsWith(".class")) {
+                    File f = new File(dir, entry.getName())
+                    f.getParentFile().mkdirs()
+                    Files.copy(zip.getInputStream(entry), Paths.get(f.toURI()), StandardCopyOption.REPLACE_EXISTING)
+                }
+            }
+        } catch (Throwable t) {t.printStackTrace();}
+    }
+}
+
+classes.finalizedBy fetchClasses
+
+jar {
+    into ('') {
+        from fileTree('build/classes/dependencies')
+    }
 }
