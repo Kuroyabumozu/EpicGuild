@@ -51,6 +51,51 @@ public class EpicGuildPlugin extends JavaPlugin {
     
     private Messager messager;
     
+    @Override
+    public void onLoad() {
+        try {
+            this.resourceManager = new StandardResourceManager(this);
+            this.localeManager = new LocaleManager();
+            this.messageManager = new GroupMessageManager(this.resourceManager, this.localeManager);
+            this.messager = this.messageManager.createMessager();
+            Util_Message.setMessager(this.messager);
+            ExceptionUtils.setExceptionHandler(new ExceptionHandler() {
+                
+                @Override
+                public void handle(Throwable t) {
+                    Util_Message.errorConsole("message.inter.unhandleException.before", t.getClass().getName(),
+                                              t.getMessage());
+                    t.printStackTrace();
+                    Util_Message.errorConsole("message.inter.unhandleException.after", t.getClass().getName(),
+                                              t.getMessage());
+                }
+            });
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+    }
+    
+    @Override
+    public void onEnable() {
+        try {
+            this.onEnable0();
+        } catch (Throwable e) {
+            Util_Message.errorConsole("init.unhandleException", e.getClass().getName(), e.getMessage());
+            e.printStackTrace();
+            this.setEnabled(false);
+        }
+    }
+    
+    @Override
+    public void onDisable() {
+        try {
+            this.onDisable0();
+        } catch (Throwable e) {
+            Util_Message.errorConsole("finalize.unhandleException", e.getClass().getName(), e.getMessage());
+            e.printStackTrace();
+        }
+    }
+    
     //启动插件
     private void onEnable0() {
         Util_Message.infoConsole("init.plugin.init");
@@ -81,7 +126,6 @@ public class EpicGuildPlugin extends JavaPlugin {
         
         this.moduleManager = new EGModuleManager(Paths.get(new File(super.getDataFolder(), "modules/install").toURI()));
         
-        this.commandManager = new EGCommandManager(this.moduleManager, this.messager);
         this.registerCommands();
         this.registerListeners();
         
@@ -107,6 +151,8 @@ public class EpicGuildPlugin extends JavaPlugin {
     }
     
     private void registerCommands() {
+        this.commandManager = new EGCommandManager(this.moduleManager, this.messager);
+        this.commandManager.setHandleCommand("epicguild", this);
         ArgConverterManager acm = this.commandManager.getArgConverterManager();
         this.commandManager.registerCommand(new CreateGuildCommand(acm));
         this.commandManager.registerCommand(new HelpCommand(acm));
@@ -129,51 +175,6 @@ public class EpicGuildPlugin extends JavaPlugin {
     @Override
     public void saveDefaultConfig() {
         this.configManager.saveDefaultConfig("config.yml", "config.yml", false);
-    }
-    
-    @Override
-    public void onLoad() {
-        try {
-            this.resourceManager = new StandardResourceManager(this);
-            this.localeManager = new LocaleManager();
-            this.messageManager = new GroupMessageManager(this.resourceManager, this.localeManager);
-            this.messager = this.messageManager.createMessager();
-            Util_Message.setMessager(this.messager);
-            ExceptionUtils.setExceptionHandler(new ExceptionHandler() {
-                
-                @Override
-                public void handle(Throwable t) {
-                    Util_Message.errorConsole("message.inter.unhandleException.before", t.getClass().getName(),
-                                              t.getMessage());
-                    t.printStackTrace();
-                    Util_Message.errorConsole("message.inter.unhandleException.after", t.getClass().getName(),
-                                              t.getMessage());
-                }
-            });
-        } catch (Throwable e) {
-            e.printStackTrace();
-        }
-    }
-    
-    @Override
-    public void onDisable() {
-        try {
-            this.onDisable0();
-        } catch (Throwable e) {
-            Util_Message.errorConsole("finalize.unhandleException", e.getClass().getName(), e.getMessage());
-            e.printStackTrace();
-        }
-    }
-    
-    @Override
-    public void onEnable() {
-        try {
-            this.onEnable0();
-        } catch (Throwable e) {
-            Util_Message.errorConsole("init.unhandleException", e.getClass().getName(), e.getMessage());
-            e.printStackTrace();
-            this.setEnabled(false);
-        }
     }
     
     /**
