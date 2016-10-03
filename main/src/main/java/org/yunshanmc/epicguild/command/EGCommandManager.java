@@ -20,10 +20,12 @@ public class EGCommandManager extends SimpleCommandManager {
     private static final String CMD_PERM = "epicguild.command.";
     
     private ModuleManager moduleManager;
+    private EGArgConverterManager argConverterManager = new EGArgConverterManager();
     
     public EGCommandManager(ModuleManager moduleManager, Messager messager) {
         super(messager);
         this.moduleManager = moduleManager;
+        this.argConverterManager = new EGArgConverterManager();
         super.setMainCommand("help");
     }
     
@@ -61,5 +63,14 @@ public class EGCommandManager extends SimpleCommandManager {
      */
     private boolean checkPermission(CommandSender sender, String perm) {
         return sender.hasPermission(perm);
+    }
+    
+    /**
+     * 获取参数转换器
+     *
+     * @return 参数转换器
+     */
+    public EGArgConverterManager getArgConverterManager() {
+        return this.argConverterManager;
     }
 }

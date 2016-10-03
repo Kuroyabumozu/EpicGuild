@@ -6,6 +6,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.yunshanmc.epicguild.command.EGCommandManager;
+import org.yunshanmc.epicguild.command.commands.CreateGuildCommand;
+import org.yunshanmc.epicguild.command.commands.HelpCommand;
 import org.yunshanmc.epicguild.database.DatabaseManager;
 import org.yunshanmc.epicguild.guild.EGGuildManager;
 import org.yunshanmc.epicguild.guild.GuildManager;
@@ -16,6 +18,7 @@ import org.yunshanmc.epicguild.module.EGModuleManager;
 import org.yunshanmc.epicguild.module.ModuleManager;
 import org.yunshanmc.epicguild.util.Util_Bukkit;
 import org.yunshanmc.epicguild.util.Util_Message;
+import org.yunshanmc.ycl.command.simple.ArgConverterManager;
 import org.yunshanmc.ycl.config.ConfigManager;
 import org.yunshanmc.ycl.config.DefaultConfigManager;
 import org.yunshanmc.ycl.exception.ExceptionHandler;
@@ -78,10 +81,12 @@ public class EpicGuildPlugin extends JavaPlugin {
         
         this.moduleManager = new EGModuleManager(Paths.get(new File(super.getDataFolder(), "modules/install").toURI()));
         
+        this.commandManager = new EGCommandManager(this.moduleManager, this.messager);
         this.registerCommands();
         this.registerListeners();
         
         try {
+            // 启动统计
             Metrics metrics = new Metrics(this);
             metrics.start();
         } catch (IOException e) {
@@ -101,7 +106,10 @@ public class EpicGuildPlugin extends JavaPlugin {
         Util_Message.infoConsole("finalize.plugin.success");
     }
     
-    private void registerCommands() {//TODO
+    private void registerCommands() {
+        ArgConverterManager acm = this.commandManager.getArgConverterManager();
+        this.commandManager.registerCommand(new CreateGuildCommand(acm));
+        this.commandManager.registerCommand(new HelpCommand(acm));
     }
     
     private void registerListeners() {//TODO
