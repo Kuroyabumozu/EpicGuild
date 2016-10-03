@@ -2,13 +2,13 @@ package org.yunshanmc.epicguild;
 
 import org.bukkit.OfflinePlayer;
 import org.bukkit.plugin.Plugin;
+import org.yunshanmc.epicguild.command.EGCommandManager;
 import org.yunshanmc.epicguild.database.DatabaseManager;
 import org.yunshanmc.epicguild.guild.Guild;
 import org.yunshanmc.epicguild.guild.GuildManager;
 import org.yunshanmc.epicguild.guildmember.GuildMember;
 import org.yunshanmc.epicguild.guildmember.GuildMemberManager;
 import org.yunshanmc.epicguild.module.ModuleManager;
-import org.yunshanmc.ycl.command.CommandManager;
 import org.yunshanmc.ycl.config.ConfigManager;
 import org.yunshanmc.ycl.locale.LocaleManager;
 import org.yunshanmc.ycl.message.MessageManager;
@@ -77,7 +77,7 @@ public final class EpicGuildAPI {
     /**
      * @see org.yunshanmc.epicguild.EpicGuildPlugin#getCommandManager()
      */
-    public static CommandManager getCommandManager() {
+    public static EGCommandManager getCommandManager() {
         return epicguild.getCommandManager();
     }
     
