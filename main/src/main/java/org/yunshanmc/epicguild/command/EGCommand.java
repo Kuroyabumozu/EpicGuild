@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import org.yunshanmc.epicguild.EpicGuildAPI;
 import org.yunshanmc.epicguild.guild.Guild;
 import org.yunshanmc.epicguild.guildmember.GuildMember;
+import org.yunshanmc.epicguild.util.Util_Message;
 import org.yunshanmc.ycl.command.simple.ArgConverterManager;
 import org.yunshanmc.ycl.command.simple.SimpleCommand;
 
@@ -24,6 +25,17 @@ public abstract class EGCommand extends SimpleCommand {
     
     public EGCommand(String name, ArgConverterManager argConverterManager) {
         super(name, argConverterManager);
+        super.setValidity(true);// 默认有效
+    }
+    
+    @Override
+    public final String getUsage() {
+        return Util_Message.getMessage("command.usage." + this.getName());
+    }
+    
+    @Override
+    public final String getDescription() {
+        return Util_Message.getMessage("command.description." + this.getName());
     }
     
     // 添加拦截动作
