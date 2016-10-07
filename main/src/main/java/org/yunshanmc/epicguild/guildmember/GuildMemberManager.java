@@ -1,8 +1,8 @@
 package org.yunshanmc.epicguild.guildmember;
 
-import java.util.List;
-
 import org.bukkit.OfflinePlayer;
+
+import java.util.List;
 
 /**
  * 公会成员管理器
@@ -21,7 +21,7 @@ public interface GuildMemberManager {
      *            公会成员对应的玩家
      * @return 公会成员(如果玩家没进过服务器则返回null)
      */
-    public GuildMember getGuildMember(OfflinePlayer player);
+    GuildMember getGuildMember(OfflinePlayer player);
     
     /**
      * 获取公会成员
@@ -30,12 +30,12 @@ public interface GuildMemberManager {
      *            公会成员对应的玩家的名字
      * @return 公会成员(如果玩家没进过服务器则返回null)
      */
-    public GuildMember getGuildMember(String playerName);
+    GuildMember getGuildMember(String playerName);
     
     /**
      * 获取所有公会成员
      * 
      * @return 所有公会成员
      */
-    public List<GuildMember> getMembers();
+    List<GuildMember> getMembers();
 }
