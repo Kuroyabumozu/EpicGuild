@@ -2,6 +2,7 @@ package org.yunshanmc.epicguild.util;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.command.CommandSender;
 import org.bukkit.event.Event;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitScheduler;
@@ -27,6 +28,17 @@ public final class Util_Bukkit {
     private Util_Bukkit() {//禁止实例化
     }
     
+    /**
+     * 检查CommandSender的权限
+     *
+     * @param sender 要检查权限的CommandSender
+     * @param permission 要检查的权限，自动添加<code>epicguild.</code>前缀
+     *
+     * @return 有权限返回true，没权限返回false
+     */
+    public static boolean checkPermission(CommandSender sender, String permission) {
+        return sender.hasPermission("epicguild." + permission);
+    }
     /**
      * 执行异步循环任务
      *
