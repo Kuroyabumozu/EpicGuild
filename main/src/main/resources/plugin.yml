@@ -16,12 +16,18 @@ permissions:
 # -------------------------------------------- #
 # 管理权限
 # -------------------------------------------- #
-  epicguild.admin: {default: false}
+  epicguild.admin:
+    default: false
+    children:
+      epicguild.use: true
+      epicguild.create: true
+      epicguild.help.refreshCache: true
 # -------------------------------------------- #
 # 使用权限
 # -------------------------------------------- #
   epicguild.create: {default: false}
   epicguild.use: {default: true}
+  epicguild.help.refreshCache: {default: false}
 # -------------------------------------------- #
 # 所有权限
 # -------------------------------------------- #
@@ -31,3 +37,4 @@ permissions:
       epicguild.use: true
       epicguild.create: true
       epicguild.admin: true
+      epicguild.help.refreshCache: true
