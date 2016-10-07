@@ -10,5 +10,5 @@ inter:
       异常类型：{0}
       异常信息：{1}
       异常栈如下：
-    after: 若此异常频繁出现，请联系作者！
+    after: '若此异常频繁出现，请联系作者！'
 missingLanguage: "$$§e[§aEpicGuild§e]§c无法找到本地化信息：{0}"
