@@ -1,0 +1,16 @@
+notMain: '命令/{0} 未设置默认子命令'
+invalid: '命令/{0} {1} 已被禁止！'
+noFound: '命令/{0} {1} 不存在'
+help:
+  help: "命令语法错误，正确语法为：
+    \n/guild {0} {1} \t{2}"
+  create: "命令语法错误，正确语法为：
+    \n/guild {0} {1} \t\t{2}"
+
+usage:
+  help: '[页码] [是否刷新缓存]'
+  create: '[公会名]'
+
+description:
+  help: '查看插件帮助'
+  create: '创建公会'
